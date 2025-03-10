@@ -15,13 +15,6 @@ def main(page: ft.Page):
     txt_preview = ft.Text(value="Ingresa los datos completos",
                           size=14, weight=ft.FontWeight.BOLD)
 
-    def actualizar_preview(e):
-        txt_preview.value = f"""
-        Nombre: {nombre_input.value.title()}
-        Edad: {edad_dropdown.value}
-        Objetivo: {objetivo_radio.value}"""
-        page.update()
-
     def actualizar_tema(e):
         if tema_switch.value:
             page.theme_mode = ft.ThemeMode.DARK
@@ -31,6 +24,17 @@ def main(page: ft.Page):
             page.theme_mode = ft.ThemeMode.LIGHT
             titulo.color = ft.Colors.PINK_300
             page.update()
+
+    def actualizar_preview(e):
+        txt_preview.value = f"""
+        Nombre: {nombre_input.value.title()}
+        Edad: {edad_dropdown.value}
+        Objetivo: {objetivo_radio.value}"""
+        page.update()
+
+    def actualizar_objetivo(e):
+        costo_input.label = f"Costo de {objetivo_radio.value}:"
+        page.update()
 
     nombre_input = ft.TextField(
         label="Nombre:", border_radius=8, on_change=actualizar_preview)
@@ -51,11 +55,28 @@ def main(page: ft.Page):
     )
 
     objetivo_radio.on_change = actualizar_preview
+    objetivo_radio.on_change = actualizar_objetivo
+
+    salario_input = ft.TextField(
+        label="Salario Mensual:", border_radius=8, on_change=actualizar_preview)
+
+    gastos_input = ft.TextField(
+        label="Gastos Mensuales:", border_radius=8, on_change=actualizar_preview)
+
+    costo_input = ft.TextField(
+        label=f"Costo de Ninguno", border_radius=8, on_change=actualizar_preview)
 
     tema_switch = ft.Switch(label="Modo Oscuro", on_change=actualizar_tema)
 
-    page.add(titulo, tema_switch, nombre_input,
-             edad_dropdown, objetivo_radio, txt_preview)
+    page.add(titulo,
+             tema_switch,
+             nombre_input,
+             edad_dropdown,
+             objetivo_radio,
+             salario_input,
+             gastos_input,
+             costo_input,
+             txt_preview)
 
 
 ft.app(main)
