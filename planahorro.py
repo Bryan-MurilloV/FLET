@@ -16,6 +16,8 @@ def main(page: ft.Page):
     txt_preview = ft.Text(value="Ingresa los datos completos",
                           size=14, weight=ft.FontWeight.BOLD)
 
+    ahorro_txt = ft.Text(value=" ", size=14, weight=ft.FontWeight.BOLD)
+
     def actualizar_tema(e):
         if tema_switch.value:
             page.theme_mode = ft.ThemeMode.DARK
@@ -36,6 +38,23 @@ def main(page: ft.Page):
     def actualizar_objetivo(e):
         costo_input.label = f"Costo de {objetivo_radio.value}:"
         page.update()
+
+    def calculo_ahorro(e):
+        meses = {1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril", 5: "Mayo",
+                 6: "Junio", 7: "Julio", 8: "Agosto", 9: "Septiembre",
+                 10: "Octubre", 11: "Noviembre", 12: "Diciembre"}
+        ahorro_mensual = int(salario_input.value) - int(gastos_input.value)
+        ahorro_total = ahorro_mensual
+        costo = int(costo_input.value)
+        mes = int(time.strftime("%m"))
+        while (ahorro_total <= costo):
+            page.add(
+                ft.Text(value=f"{meses.get(mes, 'Error')} -- ${ahorro_total}"))
+            ahorro_total += ahorro_mensual
+            mes += 1
+            if mes > 12:
+                mes = 1
+            page.update()
 
     nombre_input = ft.TextField(
         label="Nombre:", border_radius=8, on_change=actualizar_preview)
@@ -62,22 +81,34 @@ def main(page: ft.Page):
         label="Salario Mensual:", border_radius=8, on_change=actualizar_preview)
 
     gastos_input = ft.TextField(
-        label="Gastos Mensuales:", border_radius=8, on_change=actualizar_preview)
+        label="Gastos Mensuales:", border_radius=8)
 
     costo_input = ft.TextField(
-        label=f"Costo de Ninguno", border_radius=8, on_change=actualizar_preview)
+        label=f"Costo de Ninguno", border_radius=8)
 
     tema_switch = ft.Switch(label="Modo Oscuro", on_change=actualizar_tema)
 
-    page.add(titulo,
-             tema_switch,
-             nombre_input,
-             edad_dropdown,
-             objetivo_radio,
-             salario_input,
-             gastos_input,
-             costo_input,
-             txt_preview)
+    calcular_boton = ft.IconButton(
+        icon=ft.Icons.DONE_OUTLINE, on_click=calculo_ahorro)
+
+    contenido = ft.Column(
+        [
+            titulo,
+            tema_switch,
+            nombre_input,
+            edad_dropdown,
+            objetivo_radio,
+            salario_input,
+            gastos_input,
+            costo_input,
+            txt_preview,
+            calcular_boton
+        ],
+        scroll="auto"  # 🔥 Activa el scroll si el contenido es muy largo
+    )
+
+    page.add(contenido)
+    page.update()
 
 
 ft.app(main)
