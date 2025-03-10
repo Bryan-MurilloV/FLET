@@ -18,7 +18,9 @@ def main(page: ft.Page):
     txt_preview = ft.Text(value="Ingresa los datos completos",
                           size=14, weight=ft.FontWeight.BOLD)
 
-    ahorro_txt = ft.Text(value=" ", size=14, weight=ft.FontWeight.BOLD)
+    contador_meses = ft.Text(value=0, size=14, weight=ft.FontWeight.BOLD)
+
+    mensaje_final = ft.Text(value="")
 
     def actualizar_tema(e):
         if tema_switch.value:
@@ -39,6 +41,7 @@ def main(page: ft.Page):
 
     def actualizar_objetivo(e):
         costo_input.label = f"Costo de {objetivo_radio.value}:"
+        mensaje_final.value = f"{objetivo_radio.value} alcanzado en :"
         page.update()
 
     def calculo_ahorro(e):
@@ -54,6 +57,7 @@ def main(page: ft.Page):
                 ft.Text(value=f"{meses.get(mes, 'Error')} -- ${ahorro_total}"))
             ahorro_total += ahorro_mensual
             mes += 1
+            contador_meses.value = int(contador_meses.value)+1
             if mes > 12:
                 mes = 1
             page.update()
@@ -80,13 +84,19 @@ def main(page: ft.Page):
     objetivo_radio.on_change = actualizar_objetivo
 
     salario_input = ft.TextField(
-        label="Salario Mensual:", border_radius=8, on_change=actualizar_preview)
+        label="Salario Mensual:", border_radius=8, on_change=actualizar_preview, expand=True)
 
     gastos_input = ft.TextField(
-        label="Gastos Mensuales:", border_radius=8)
+        label="Gastos Mensuales:", border_radius=8, expand=True)
 
     costo_input = ft.TextField(
-        label=f"Costo de Ninguno", border_radius=8)
+        label=f"Costo de Ninguno", border_radius=8, expand=True)
+
+    fila_inputs = ft.Row(
+        [salario_input, gastos_input, costo_input],
+        spacing=10,
+        alignment=ft.MainAxisAlignment.CENTER
+    )
 
     tema_switch = ft.Switch(label="Modo Oscuro", on_change=actualizar_tema)
 
@@ -101,11 +111,10 @@ def main(page: ft.Page):
                 nombre_input,
                 edad_dropdown,
                 objetivo_radio,
-                salario_input,
-                gastos_input,
-                costo_input,
+                fila_inputs,
                 txt_preview,
-                calcular_boton
+                calcular_boton,
+                mensaje_final
             ],
             scroll="auto"
         ),
