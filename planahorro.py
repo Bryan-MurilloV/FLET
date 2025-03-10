@@ -8,6 +8,8 @@ def main(page: ft.Page):
 
     page.padding = 20
 
+    page.scroll = "adaptive"
+
     titulo = ft.Text(value="Bienvenido al Sistema de Plan de Ahorro",
                      size=20, weight=ft.FontWeight.BOLD, color=ft.Colors.PINK_300)
 
@@ -91,20 +93,23 @@ def main(page: ft.Page):
     calcular_boton = ft.IconButton(
         icon=ft.Icons.DONE_OUTLINE, on_click=calculo_ahorro)
 
-    contenido = ft.Column(
-        [
-            titulo,
-            tema_switch,
-            nombre_input,
-            edad_dropdown,
-            objetivo_radio,
-            salario_input,
-            gastos_input,
-            costo_input,
-            txt_preview,
-            calcular_boton
-        ],
-        scroll="auto"  # 🔥 Activa el scroll si el contenido es muy largo
+    contenido = ft.Container(
+        content=ft.Column(
+            [
+                titulo,
+                tema_switch,
+                nombre_input,
+                edad_dropdown,
+                objetivo_radio,
+                salario_input,
+                gastos_input,
+                costo_input,
+                txt_preview,
+                calcular_boton
+            ],
+            scroll="auto"
+        ),
+        expand=False
     )
 
     page.add(contenido)
