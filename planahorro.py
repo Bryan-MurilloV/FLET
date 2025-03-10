@@ -17,7 +17,8 @@ def main(page: ft.Page):
 
     def actualizar_preview(e):
         txt_preview.value = f"""
-        Nombre: {nombre_input.value.title()}"""
+        Nombre: {nombre_input.value.title()}
+        Edad: {edad_dropdown.value}"""
         page.update()
 
     def actualizar_tema(e):
@@ -33,9 +34,15 @@ def main(page: ft.Page):
     nombre_input = ft.TextField(
         label="Nombre:", border_radius=8, on_change=actualizar_preview)
 
+    edad_dropdown = ft.Dropdown(
+        label="Edad",
+        options=[ft.dropdown.Option(str(edad)) for edad in range(18, 101)],
+        on_change=actualizar_preview
+    )
+
     tema_switch = ft.Switch(label="Modo Oscuro", on_change=actualizar_tema)
 
-    page.add(titulo, tema_switch, nombre_input, txt_preview)
+    page.add(titulo, tema_switch, nombre_input, edad_dropdown, txt_preview)
 
 
 ft.app(main)
