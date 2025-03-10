@@ -18,7 +18,8 @@ def main(page: ft.Page):
     def actualizar_preview(e):
         txt_preview.value = f"""
         Nombre: {nombre_input.value.title()}
-        Edad: {edad_dropdown.value}"""
+        Edad: {edad_dropdown.value}
+        Objetivo: {objetivo_radio.value}"""
         page.update()
 
     def actualizar_tema(e):
@@ -40,9 +41,21 @@ def main(page: ft.Page):
         on_change=actualizar_preview
     )
 
+    objetivo_radio = ft.RadioGroup(
+        content=ft.Row([
+            ft.Radio(value="Auto", label="Auto"),
+            ft.Radio(value="Viaje", label="Viaje"),
+            ft.Radio(value="Casa", label="Casa"),
+            ft.Radio(value="Celular", label="Celular")
+        ])
+    )
+
+    objetivo_radio.on_change = actualizar_preview
+
     tema_switch = ft.Switch(label="Modo Oscuro", on_change=actualizar_tema)
 
-    page.add(titulo, tema_switch, nombre_input, edad_dropdown, txt_preview)
+    page.add(titulo, tema_switch, nombre_input,
+             edad_dropdown, objetivo_radio, txt_preview)
 
 
 ft.app(main)
