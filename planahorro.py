@@ -13,6 +13,9 @@ def main(page: ft.Page):
     titulo = ft.Text(value="Bienvenido al Sistema de Plan de Ahorro",
                      size=20, weight=ft.FontWeight.BOLD, color=ft.Colors.PINK_300)
 
+    subtitulo = ft.Text(value="Calculo De Ahorro Final:", size=20,
+                        weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_300)
+
     page.theme_mode = ft.ThemeMode.LIGHT
 
     txt_preview = ft.Text(value="Ingresa los datos completos",
@@ -20,16 +23,16 @@ def main(page: ft.Page):
 
     contador_meses = ft.Text(value=0, size=14, weight=ft.FontWeight.BOLD)
 
-    mensaje_final = ft.Text(value="")
-
     def actualizar_tema(e):
         if tema_switch.value:
             page.theme_mode = ft.ThemeMode.DARK
             titulo.color = ft.Colors.LIGHT_BLUE_200
+            subtitulo.color = ft.Colors.PINK_300
             page.update()
         else:
             page.theme_mode = ft.ThemeMode.LIGHT
             titulo.color = ft.Colors.PINK_300
+            subtitulo.color = ft.Colors.BLUE_300
             page.update()
 
     def actualizar_preview(e):
@@ -41,7 +44,6 @@ def main(page: ft.Page):
 
     def actualizar_objetivo(e):
         costo_input.label = f"Costo de {objetivo_radio.value}:"
-        mensaje_final.value = f"{objetivo_radio.value} alcanzado en :"
         page.update()
 
     def calculo_ahorro(e):
@@ -61,6 +63,9 @@ def main(page: ft.Page):
             if mes > 12:
                 mes = 1
             page.update()
+        page.add(
+            ft.Text(value=f"{objetivo_radio.value} alcanzado en {int(contador_meses.value)//12} Años con {int(contador_meses.value) % 12} Meses",
+                    size=16, weight=ft.FontWeight.BOLD))
 
     nombre_input = ft.TextField(
         label="Nombre:", border_radius=8, on_change=actualizar_preview)
@@ -114,7 +119,7 @@ def main(page: ft.Page):
                 fila_inputs,
                 txt_preview,
                 calcular_boton,
-                mensaje_final
+                subtitulo
             ],
             scroll="auto"
         ),
