@@ -54,9 +54,19 @@ def main(page: ft.Page):
         ahorro_total = ahorro_mensual
         costo = int(costo_input.value)
         mes = int(time.strftime("%m"))
+
         while (ahorro_total <= costo):
             page.add(
-                ft.Text(value=f"{meses.get(mes, 'Error')} -- ${ahorro_total}"))
+                ft.Row([
+                    ft.TextField(
+                        value=f"{meses.get(mes, 'Error')}",
+                        border_color=ft.Colors.LIGHT_BLUE_200,
+                        read_only=True),
+                    ft.TextField(
+                        value=f"${ahorro_total}",
+                        border_color=ft.Colors.LIGHT_BLUE_200,
+                        read_only=True),
+                ]))
             ahorro_total += ahorro_mensual
             mes += 1
             contador_meses.value = int(contador_meses.value)+1
@@ -115,6 +125,8 @@ def main(page: ft.Page):
                 tema_switch,
                 nombre_input,
                 edad_dropdown,
+                ft.Text(value="Objetivos:", size=16,
+                        color=ft.Colors.PURPLE_300, weight=ft.FontWeight.W_600),
                 objetivo_radio,
                 fila_inputs,
                 txt_preview,
@@ -127,7 +139,6 @@ def main(page: ft.Page):
     )
 
     page.add(contenido)
-    page.update()
 
 
 ft.app(main)
