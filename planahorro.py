@@ -21,7 +21,7 @@ def main(page: ft.Page):
     txt_preview = ft.Text(value="Ingresa los datos completos",
                           size=14, weight=ft.FontWeight.BOLD)
 
-    contador_meses = ft.Text(value=0, size=14, weight=ft.FontWeight.BOLD)
+    contador_meses = ft.Text(value=0)
 
     def actualizar_tema(e):
         if tema_switch.value:
