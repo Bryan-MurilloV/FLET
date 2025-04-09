@@ -55,7 +55,7 @@ def main(page: ft.Page):
         costo = int(costo_input.value)
         mes = int(time.strftime("%m"))
 
-        while (ahorro_total <= costo):
+        while ahorro_total <= costo:
             page.add(
                 ft.Row([
                     ft.TextField(
